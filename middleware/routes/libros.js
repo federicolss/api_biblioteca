@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Libro = require("../models/Libro.js")
+const Libro = require("../models/Libro.js");
 // Ruta para obtener todos los libros
 router.get("/", async (req, res) => {
 try {
@@ -23,11 +23,11 @@ res.status(500).json({ error: "Error al crear el Libro" });
 // Ruta para actualizar un Libro existente
 router.put("/:id", async (req, res) => {
     try {
-        const Libro = await Libro.findByIdAndUpdate(req.params.id, req.body,
+        const Libros = await Libro.findByIdAndUpdate(req.params.id, req.body,
         {
         new: true,
         });
-        res.json(Libro);
+        res.json(Libros);
         } catch (error) {
         res.status(500).json({ error: "Error al actualizar el Libro" });
         }
