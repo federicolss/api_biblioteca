@@ -10,6 +10,38 @@ res.json(libros);
 res.status(500).json({ error: "Error al obtener los libros" });
 }
 });
+//busca un libro por id
+// router.get("/:id",async (req, res,next)=>{
+//     try{
+//         const id = parseInt(req.params.id);
+//         const libros = Libro.find((p)=>p.id === id);
+
+//         if(!libros){
+//             const error = new Error("libro  no encontrado");
+//             error.status = 404;
+//             throw error;
+//         }
+//         res.json(libros)
+//         }catch(err){
+//             next(err)
+//         }
+// });
+router.get("/:id", async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const libroEncontrado = await Libro.findById(id);
+  
+      if (!libroEncontrado) {
+        const error = new Error("Libro no encontrado");
+        error.status = 404;
+        throw error;
+      }
+  
+      res.json(libroEncontrado);
+    } catch (err) {
+      next(err);
+    }
+  });
 // Ruta para crear un nuevo Libro
 router.post("/", async (req, res) => {
 try {
