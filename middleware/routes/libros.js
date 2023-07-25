@@ -10,7 +10,8 @@ res.json(libros);
 res.status(500).json({ error: "Error al obtener los libros" });
 }
 });
-//busca un libro por id
+//busca un libro por id , este no funciona con ".find()" porque la version de mongo
+//ya no la acepta . 
 // router.get("/:id",async (req, res,next)=>{
 //     try{
 //         const id = parseInt(req.params.id);
@@ -44,13 +45,13 @@ router.get("/:id", async (req, res, next) => {
   });
 // Ruta para crear un nuevo Libro
 router.post("/", async (req, res) => {
-try {
-const nuevoLibro = new Libro(req.body);
-await nuevoLibro.save();
-res.json(nuevoLibro);
-} catch (error) {
-res.status(500).json({ error: "Error al crear el Libro" });
-}
+    try {
+        const nuevoLibro = new Libro(req.body);
+        await nuevoLibro.save();
+        res.json(nuevoLibro);
+    } catch (error) {
+        res.status(500).json({ error: "Error al crear el Libro" });
+  }
 });
 // Ruta para actualizar un Libro existente
 router.put("/:id", async (req, res) => {
