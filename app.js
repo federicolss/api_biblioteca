@@ -1,11 +1,19 @@
 const express = require('express');
+const { auth } = require("express-oauth2-jwt-bearer");
+const errorHandler = require('./middleware/errorHandler');//importamos el archivo de manejo de errores
+
+// Configuracion Middleware con el Servidor de Autorización
+const jwtCheck = auth({
+  audience: 'http//localhost:3000/api/libros',
+  issuerBaseURL: 'https://dev-zppocy6as2nxaz56.us.auth0.com/',
+  tokenSigningAlg: 'RS256'
+});
 const app = express();
 app.use(express.json());
-// Importamos el Router de Libros
+//importamos las rutas de los libro
 const librosRouter = require('./middleware/routes/libros');
-// Importamos el Middleware Error Handler
-const errorHandler = require('./middleware/errorHandler');
-app.use('/libros', librosRouter);
+
+app.use('/api/libros',jwtCheck, librosRouter);
 app.use(errorHandler);
 app.listen(3000, () => {
     console.log('Servidor iniciado en el puerto 3000');
